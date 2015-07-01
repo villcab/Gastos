@@ -1,9 +1,15 @@
 package com.villcab.gastos;
 
+import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
+import android.os.Build;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
+
+import com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -12,6 +18,14 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // in Activity Context
+        ImageView icon = new ImageView(this); // Create an icon
+        icon.setImageResource(R.drawable.ic_content_new);
+
+        FloatingActionButton actionButton = new FloatingActionButton.Builder(this).setContentView(icon).build();
+        //actionButton.setBackgroundResource(R.color.primaryColorDark);
+
     }
 
     @Override
