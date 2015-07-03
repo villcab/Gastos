@@ -34,7 +34,7 @@ public abstract class Wrapper extends SQLiteOpenHelper {
 
     protected Context context;
 
-    private String tableName;
+    public String tableName;
 
     public Wrapper(Context context, Class type) throws Exception {
         super(context, Setting.databaseName, null, 1);
