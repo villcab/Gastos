@@ -2,7 +2,9 @@ package com.villcab.gastos.entitys;
 
 import com.villcab.gastos.utils.model.Entity;
 import com.villcab.gastos.utils.model.annotations.Key;
+import com.villcab.gastos.utils.model.annotations.TableName;
 
+@TableName(name = "tipo_clasificador")
 public class TipoClasificador extends Entity {
 
     @Key

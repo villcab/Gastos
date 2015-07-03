@@ -3,13 +3,13 @@ package com.villcab.gastos.utils.model;
 import android.util.Log;
 
 import com.villcab.gastos.utils.App;
-import com.villcab.gastos.utils.model.annotations.Ignore;
+import com.villcab.gastos.utils.model.annotations.Ignored;
 
 import java.io.Serializable;
 
 public class Entity implements Serializable, Cloneable {
 
-    @Ignore
+    @Ignored
     private Action action = Action.NONE;
 
     public Action getAction() {

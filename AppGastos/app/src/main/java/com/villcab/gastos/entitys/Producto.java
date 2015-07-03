@@ -1,8 +1,11 @@
 package com.villcab.gastos.entitys;
 
 import com.villcab.gastos.utils.model.Entity;
+import com.villcab.gastos.utils.model.annotations.Ignored;
 import com.villcab.gastos.utils.model.annotations.Key;
+import com.villcab.gastos.utils.model.annotations.TableName;
 
+@TableName(name = "producto")
 public class Producto extends Entity {
 
     @Key
@@ -12,6 +15,7 @@ public class Producto extends Entity {
     private Long idcTipoProducto;
     private String code;
 
+    @Ignored
     private Clasificador tipoProducto;
 
     public Producto() {

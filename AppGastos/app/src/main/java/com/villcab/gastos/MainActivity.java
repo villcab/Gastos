@@ -1,15 +1,15 @@
 package com.villcab.gastos;
 
-import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
-import android.os.Build;
-import android.support.v7.app.ActionBarActivity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 
 import com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton;
+import com.villcab.gastos.activitys.ProductoActivity;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -24,7 +24,14 @@ public class MainActivity extends ActionBarActivity {
         icon.setImageResource(R.drawable.ic_content_new);
 
         FloatingActionButton actionButton = new FloatingActionButton.Builder(this).setContentView(icon).build();
-        //actionButton.setBackgroundResource(R.color.primaryColorDark);
+        actionButton.setBackgroundResource(R.color.primaryColorDark);
+        actionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(MainActivity.this, ProductoActivity.class);
+                startActivity(i);
+            }
+        });
 
     }
 

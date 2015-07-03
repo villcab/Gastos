@@ -9,8 +9,9 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.googlecode.openbeans.PropertyDescriptor;
+import com.villcab.gastos.entitys.Producto;
 import com.villcab.gastos.utils.App;
-import com.villcab.gastos.utils.model.annotations.Ignore;
+import com.villcab.gastos.utils.model.annotations.Ignored;
 import com.villcab.gastos.utils.model.annotations.Key;
 import com.villcab.gastos.utils.model.annotations.Nullable;
 import com.villcab.gastos.utils.model.annotations.TableName;
@@ -40,7 +41,7 @@ public abstract class Wrapper extends SQLiteOpenHelper {
         super(context, Setting.databaseName, null, 1);
         this.context = context;
         TableName atable = (TableName) type.getAnnotation(TableName.class);
-        if (atable != null) {
+        if (atable == null) {
             throw new Exception("No existe la anotacion @TableName en la Entidad: " + type);
         }
         tableName = atable.name();
@@ -92,7 +93,7 @@ public abstract class Wrapper extends SQLiteOpenHelper {
         Annotation[] annotations = field.getAnnotations();
         if (annotations.length > 0) {
             for (Annotation annotation : annotations) {
-                if (annotation instanceof Ignore) {
+                if (annotation instanceof Ignored) {
                     return true;
                 }
             }
@@ -108,10 +109,10 @@ public abstract class Wrapper extends SQLiteOpenHelper {
             db.beginTransaction();
             values = new ContentValues();
             Field[] entityFields = entity.getClass().getDeclaredFields();
-            //Field[] superFields = entity.getClass().getSuperclass().getDeclaredFields();
+            Field[] superFields = entity.getClass().getSuperclass().getDeclaredFields();
             List<Field> listFields = new ArrayList<Field>();
             listFields.addAll(Arrays.asList(entityFields));
-            //listFields.addAll(Arrays.asList(superFields));
+            listFields.addAll(Arrays.asList(superFields));
 
 //            String fieldKey = null;
             Field fieldKey = null;
@@ -170,8 +171,7 @@ public abstract class Wrapper extends SQLiteOpenHelper {
                     db.delete(tableName, "id = ?", new String[]{value.toString()});
                     break;
                 default:
-                    Log.e(App.TAG, "Especifique INSERT, UPDATE OR DELETE");
-                    break;
+                    throw new Exception("Especifique INSERT, UPDATE OR DELETE");
             }
 
 //            if (entity.getAction() == Action.INSERT) {
@@ -380,7 +380,7 @@ public abstract class Wrapper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         try {
-            //db.execSQL(getCreate(new Producto()));
+            db.execSQL(getCreate(new Producto()));
         } catch (Exception e) {
             e.printStackTrace();
         }
