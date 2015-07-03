@@ -9,9 +9,11 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.googlecode.openbeans.PropertyDescriptor;
+import com.villcab.gastos.utils.App;
 import com.villcab.gastos.utils.model.annotations.Ignore;
 import com.villcab.gastos.utils.model.annotations.Key;
 import com.villcab.gastos.utils.model.annotations.Nullable;
+import com.villcab.gastos.utils.model.annotations.TableName;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
@@ -32,10 +34,16 @@ public abstract class Wrapper extends SQLiteOpenHelper {
 
     protected Context context;
 
-    public Wrapper(Context context) {
-        super(context, Setting.databaseName, null, 1);
+    private String tableName;
 
+    public Wrapper(Context context, Class type) throws Exception {
+        super(context, Setting.databaseName, null, 1);
         this.context = context;
+        TableName atable = (TableName) type.getAnnotation(TableName.class);
+        if (atable != null) {
+            throw new Exception("No existe la anotacion @TableName en la Entidad: " + type);
+        }
+        tableName = atable.name();
     }
 
     public Wrapper(Context context, SQLiteDatabase connection) {
@@ -68,13 +76,12 @@ public abstract class Wrapper extends SQLiteOpenHelper {
 
     public void clean(Entity entity) {
         SQLiteDatabase objDb = this.getWritableDatabase();
-        String table = getTableName(entity);
         try {
             objDb.beginTransaction();
-            objDb.delete(table, "", new String[]{});
+            objDb.delete(tableName, "", new String[]{});
             objDb.setTransactionSuccessful();
         } catch (Exception e) {
-            Log.e("debug", e.getMessage());
+            Log.e(App.TAG, e.getMessage());
         } finally {
             objDb.endTransaction();
             objDb.close();
@@ -93,28 +100,36 @@ public abstract class Wrapper extends SQLiteOpenHelper {
         return false;
     }
 
-    public boolean save(Entity entity) {
-        boolean result = false;
+    public void save(Entity entity) throws Exception {
+//        boolean result = false;
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values;
-        String table = getTableName(entity);
         try {
             db.beginTransaction();
             values = new ContentValues();
             Field[] entityFields = entity.getClass().getDeclaredFields();
-            Field[] superFields = entity.getClass().getSuperclass().getDeclaredFields();
+            //Field[] superFields = entity.getClass().getSuperclass().getDeclaredFields();
             List<Field> listFields = new ArrayList<Field>();
             listFields.addAll(Arrays.asList(entityFields));
-            listFields.addAll(Arrays.asList(superFields));
+            //listFields.addAll(Arrays.asList(superFields));
+
+//            String fieldKey = null;
+            Field fieldKey = null;
 
             for (Field field : listFields) {
+                Key key = field.getAnnotation(Key.class);
+                if (key != null) {
+                    fieldKey = field;
+                    continue;
+                }
                 if (!Ignore(field)) {
-                    PropertyDescriptor prop;
-                    try {
-                        prop = new PropertyDescriptor(field.getName(), entity.getClass());
-                    } catch (NullPointerException e) {
-                        prop = new PropertyDescriptor(field.getName(), entity.getClass().getSuperclass());
-                    }
+                    PropertyDescriptor prop = new PropertyDescriptor(field.getName(), entity.getClass());
+//                    try {
+//                        prop = new PropertyDescriptor(field.getName(), entity.getClass());
+//                    } catch (NullPointerException e) {
+//                        prop = new PropertyDescriptor(field.getName(), entity.getClass().getSuperclass());
+//                    }
+
                     Method method = prop.getReadMethod();
                     Object value = method.invoke(entity);
                     if (value != null) {
@@ -126,23 +141,56 @@ public abstract class Wrapper extends SQLiteOpenHelper {
                     //}
                 }
             }
-            if (entity.getAction() == Action.INSERT) {
-                entity.setId(db.insert(table, null, values));
-            } else if (entity.getAction() == Action.UPDATE) {
-                db.update(table, values, "id=?", new String[]{Long.toString(entity.getId())});
-            } else {
-                db.delete(table, "id=?", new String[]{Long.toString(entity.getId())});
+
+            if (fieldKey == null) {
+                throw new Exception("No Existe la anotacion @Key en la entidad: " + entity.getClass());
             }
+
+            PropertyDescriptor propertyDescriptor;
+            Method method;
+            Object value;
+            switch (entity.getAction()) {
+                case INSERT:
+                    Long id = db.insert(tableName, null, values);
+                    propertyDescriptor = new PropertyDescriptor(fieldKey.getName(), entity.getClass());
+                    method = propertyDescriptor.getWriteMethod();
+                    method.invoke(entity, id);
+                    break;
+
+                case UPDATE:
+                    propertyDescriptor = new PropertyDescriptor(fieldKey.getName(), entity.getClass());
+                    method = propertyDescriptor.getReadMethod();
+                    value = method.invoke(entity);
+                    db.update(tableName, values, "id = ?", new String[]{value.toString()});
+                    break;
+                case DELETE:
+                    propertyDescriptor = new PropertyDescriptor(fieldKey.getName(), entity.getClass());
+                    method = propertyDescriptor.getReadMethod();
+                    value = method.invoke(entity);
+                    db.delete(tableName, "id = ?", new String[]{value.toString()});
+                    break;
+                default:
+                    Log.e(App.TAG, "Especifique INSERT, UPDATE OR DELETE");
+                    break;
+            }
+
+//            if (entity.getAction() == Action.INSERT) {
+//                Long id = db.insert(table, null, values);
+//
+//            } else if (entity.getAction() == Action.UPDATE) {
+//                db.update(table, values, "id=?", new String[]{Long.toString(entity.getId())});
+//            } else {
+//                db.delete(table, "id=?", new String[]{Long.toString(entity.getId())});
+//            }
+
             db.setTransactionSuccessful();
-            result = true;
-        } catch (Exception e) {
-            e.printStackTrace();
+//            result = true;
         } finally {
             db.endTransaction();
             db.close();
         }
 
-        return result;
+//        return result;
     }
 
     public static String getCreate(Entity entity) {
@@ -182,7 +230,7 @@ public abstract class Wrapper extends SQLiteOpenHelper {
             builder.append(concatKeys(columns));
             return builder.toString();
         } catch (Exception e) {
-            Log.e("hola", e.getMessage());
+            Log.e(App.TAG, e.getMessage());
         }
         return "";
     }
@@ -200,7 +248,7 @@ public abstract class Wrapper extends SQLiteOpenHelper {
                 cursor.close();
             }
         } catch (Exception e) {
-            Log.e("hola", e.getMessage());
+            Log.e(App.TAG, e.getMessage());
         } finally {
             if (cursor != null) {
                 cursor.close();
@@ -229,7 +277,7 @@ public abstract class Wrapper extends SQLiteOpenHelper {
                 cursor.close();
             }
         } catch (Exception e) {
-            Log.e("hola", e.getMessage());
+            Log.e(App.TAG, e.getMessage());
         } finally {
             if (cursor != null) {
                 cursor.close();
@@ -296,6 +344,12 @@ public abstract class Wrapper extends SQLiteOpenHelper {
     }
 
     public static String getTableName(Entity entity) {
+
+        TableName tableName = entity.getClass().getAnnotation(TableName.class);
+        if (tableName == null) {
+
+        }
+
         String[] buf = entity.getClass().getName().split("\\.");
         return (buf[buf.length - 2] + "_" + buf[buf.length - 1]).toLowerCase();
     }
@@ -312,7 +366,7 @@ public abstract class Wrapper extends SQLiteOpenHelper {
                 cursor.close();
             }
         } catch (Exception e) {
-            Log.e("hola", e.getMessage());
+            Log.e(App.TAG, e.getMessage());
         } finally {
             if (cursor != null) {
                 cursor.close();
@@ -358,4 +412,5 @@ public abstract class Wrapper extends SQLiteOpenHelper {
         connection.endTransaction();
         connection.close();
     }
+
 }
