@@ -8,7 +8,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton;
 import com.villcab.gastos.activitys.ProductoActivity;
 
 
@@ -23,15 +22,15 @@ public class MainActivity extends ActionBarActivity {
         ImageView icon = new ImageView(this); // Create an icon
         icon.setImageResource(R.drawable.ic_content_new);
 
-        FloatingActionButton actionButton = new FloatingActionButton.Builder(this).setContentView(icon).build();
-        actionButton.setBackgroundResource(R.color.primaryColorDark);
-        actionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(MainActivity.this, ProductoActivity.class);
-                startActivity(i);
-            }
-        });
+//        FloatingActionButton actionButton = new FloatingActionButton.Builder(this).setContentView(icon).build();
+//        actionButton.setBackgroundResource(R.color.primaryColorDark);
+//        actionButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent i = new Intent(MainActivity.this, ProductoActivity.class);
+//                startActivity(i);
+//            }
+//        });
 
     }
 

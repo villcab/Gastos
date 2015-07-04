@@ -193,7 +193,7 @@ public abstract class Wrapper extends SQLiteOpenHelper {
 //        return result;
     }
 
-    public static String getCreate(Entity entity) {
+    public String createTable(Entity entity) {
         Field[] fields = entity.getClass().getDeclaredFields();
         Field[] superFields = entity.getClass().getSuperclass().getDeclaredFields();
         List<Field> listFields = new ArrayList<Field>();
@@ -204,7 +204,7 @@ public abstract class Wrapper extends SQLiteOpenHelper {
         List<Object> columns = new ArrayList<Object>();
         StringBuilder builder = new StringBuilder();
         builder.append("CREATE TABLE ");
-        builder.append(getTableName(entity));
+        builder.append(tableName);
         try {
             for (Field field : fields) {
                 if (!(field.getName().equals("action"))) {
@@ -214,10 +214,11 @@ public abstract class Wrapper extends SQLiteOpenHelper {
                             for (Annotation annotation : annotations) {
                                 if (annotation instanceof Key) {
                                     columns.add(field.getName() + " integer NOT NULL PRIMARY KEY AUTOINCREMENT");
-                                } else if (annotation instanceof Nullable) {
-                                    columns.add(field.getName() + " text");
+                                //} else if (annotation instanceof Nullable) {
+                                //    columns.add(field.getName() + " text");
                                 } else {
-                                    columns.add(field.getName() + " text NOT NULL");
+                                    //columns.add(field.getName() + " text NOT NULL");
+                                    columns.add(field.getName() + " text");
                                 }
                             }
                         } else {
@@ -343,16 +344,16 @@ public abstract class Wrapper extends SQLiteOpenHelper {
         return ((Llaves.size() > 0) ? "(" + TextUtils.join(", ", Llaves) + ")" : "(0)");
     }
 
-    public static String getTableName(Entity entity) {
-
-        TableName tableName = entity.getClass().getAnnotation(TableName.class);
-        if (tableName == null) {
-
-        }
-
-        String[] buf = entity.getClass().getName().split("\\.");
-        return (buf[buf.length - 2] + "_" + buf[buf.length - 1]).toLowerCase();
-    }
+//    public static String getTableName(Entity entity) {
+//
+//        TableName tableName = entity.getClass().getAnnotation(TableName.class);
+//        if (tableName == null) {
+//
+//        }
+//
+//        String[] buf = entity.getClass().getName().split("\\.");
+//        return (buf[buf.length - 2] + "_" + buf[buf.length - 1]).toLowerCase();
+//    }
 
     public <T extends Entity> T get(String strQuery, Entity entity) {
         SQLiteDatabase objDb = this.getReadableDatabase();
@@ -380,7 +381,7 @@ public abstract class Wrapper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         try {
-            db.execSQL(getCreate(new Producto()));
+            db.execSQL(createTable(new Producto()));
         } catch (Exception e) {
             e.printStackTrace();
         }
