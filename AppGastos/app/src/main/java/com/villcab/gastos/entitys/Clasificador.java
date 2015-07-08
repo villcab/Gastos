@@ -64,7 +64,6 @@ public class Clasificador extends Entity {
         Clasificador that = (Clasificador) o;
 
         return id.equals(that.id);
-
     }
 
     @Override

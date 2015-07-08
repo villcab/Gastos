@@ -53,7 +53,6 @@ public class TipoClasificador extends Entity {
         TipoClasificador that = (TipoClasificador) o;
 
         return id.equals(that.id);
-
     }
 
     @Override
@@ -69,4 +68,5 @@ public class TipoClasificador extends Entity {
                 ", descripcion='" + descripcion + '\'' +
                 '}';
     }
+
 }

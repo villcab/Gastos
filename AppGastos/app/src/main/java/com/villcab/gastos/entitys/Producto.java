@@ -13,7 +13,7 @@ public class Producto extends Entity {
     private String nombre;
     private String image;
     private Long idcTipoProducto;
-    private String code;
+    private String guid;
 
     @Ignored
     private Clasificador tipoProducto;
@@ -53,12 +53,12 @@ public class Producto extends Entity {
         this.idcTipoProducto = idcTipoProducto;
     }
 
-    public String getCode() {
-        return code;
+    public String getGuid() {
+        return guid;
     }
 
-    public void setCode(String code) {
-        this.code = code;
+    public void setGuid(String guid) {
+        this.guid = guid;
     }
 
     public Clasificador getTipoProducto() {
@@ -77,7 +77,6 @@ public class Producto extends Entity {
         Producto producto = (Producto) o;
 
         return id.equals(producto.id);
-
     }
 
     @Override
@@ -88,10 +87,11 @@ public class Producto extends Entity {
     @Override
     public String toString() {
         return "Producto{" +
-                "code='" + code + '\'' +
+                "id=" + id +
                 ", nombre='" + nombre + '\'' +
                 ", image='" + image + '\'' +
                 ", idcTipoProducto=" + idcTipoProducto +
+                ", guid='" + guid + '\'' +
                 ", tipoProducto=" + tipoProducto +
                 '}';
     }

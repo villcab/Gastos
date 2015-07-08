@@ -1,0 +1,12 @@
+package com.villcab.gastos.utils;
+
+import java.util.UUID;
+
+public class CodeUtils {
+
+    public static String generateGuid() {
+        UUID uuid = UUID.randomUUID();
+        return uuid.toString();
+    }
+
+}

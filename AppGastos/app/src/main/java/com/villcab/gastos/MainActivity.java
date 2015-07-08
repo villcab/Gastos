@@ -6,7 +6,6 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
 
 import com.villcab.gastos.activitys.ProductoActivity;
 
@@ -19,8 +18,8 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
 
         // in Activity Context
-        ImageView icon = new ImageView(this); // Create an icon
-        icon.setImageResource(R.drawable.ic_content_new);
+//        ImageView icon = new ImageView(this); // Create an icon
+//        icon.setImageResource(R.drawable.ic_content_new);
 
 //        FloatingActionButton actionButton = new FloatingActionButton.Builder(this).setContentView(icon).build();
 //        actionButton.setBackgroundResource(R.color.primaryColorDark);
@@ -32,6 +31,11 @@ public class MainActivity extends ActionBarActivity {
 //            }
 //        });
 
+    }
+
+    public void onClickAdd(View view) {
+        Intent i = new Intent(this, ProductoActivity.class);
+        startActivity(i);
     }
 
     @Override
