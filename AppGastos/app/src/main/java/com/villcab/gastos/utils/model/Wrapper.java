@@ -9,7 +9,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.googlecode.openbeans.PropertyDescriptor;
-import com.villcab.gastos.entitys.Producto;
+import com.villcab.gastos.entitys.Concepto;
 import com.villcab.gastos.utils.App;
 import com.villcab.gastos.utils.model.annotations.Ignored;
 import com.villcab.gastos.utils.model.annotations.Key;
@@ -381,7 +381,7 @@ public abstract class Wrapper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         try {
-            db.execSQL(createTable(new Producto()));
+            db.execSQL(createTable(new Concepto()));
         } catch (Exception e) {
             e.printStackTrace();
         }

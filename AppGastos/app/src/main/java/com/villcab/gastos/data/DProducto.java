@@ -4,7 +4,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-import com.villcab.gastos.entitys.Producto;
+import com.villcab.gastos.entitys.Concepto;
 import com.villcab.gastos.utils.App;
 import com.villcab.gastos.utils.model.Wrapper;
 
@@ -20,10 +20,10 @@ public class DProducto extends Wrapper {
         super(context, connection);
     }
 
-    public List<Producto> listAll() {
+    public List<Concepto> listAll() {
         String query = String.format("SELECT * FROM %s", tableName);
         Log.d(App.TAG, query);
-        List<Producto> list = this.list(query, new Producto());
+        List<Concepto> list = this.list(query, new Concepto());
         return list;
     }
 

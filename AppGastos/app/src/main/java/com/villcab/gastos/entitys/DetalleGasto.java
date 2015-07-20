@@ -11,12 +11,15 @@ public class DetalleGasto extends Entity {
 
     @Key
     private Long id;
-    private Long productoId;
+    private Long productoGuid;
+    private Long gastoId;
     private Float total;
     private Long fechaRegistro;
 
     @Ignored
-    private Producto producto;
+    private Concepto concepto;
+    @Ignored
+    private Gasto gasto;
 
     public DetalleGasto() {
         fechaRegistro = MyDateUtils.now();
@@ -30,12 +33,20 @@ public class DetalleGasto extends Entity {
         this.id = id;
     }
 
-    public Long getProductoId() {
-        return productoId;
+    public Long getProductoGuid() {
+        return productoGuid;
     }
 
-    public void setProductoId(Long productoId) {
-        this.productoId = productoId;
+    public void setProductoGuid(Long productoGuid) {
+        this.productoGuid = productoGuid;
+    }
+
+    public Long getGastoId() {
+        return gastoId;
+    }
+
+    public void setGastoId(Long gastoId) {
+        this.gastoId = gastoId;
     }
 
     public Float getTotal() {
@@ -54,12 +65,20 @@ public class DetalleGasto extends Entity {
         this.fechaRegistro = fechaRegistro;
     }
 
-    public Producto getProducto() {
-        return producto;
+    public Concepto getConcepto() {
+        return concepto;
     }
 
-    public void setProducto(Producto producto) {
-        this.producto = producto;
+    public void setConcepto(Concepto concepto) {
+        this.concepto = concepto;
+    }
+
+    public Gasto getGasto() {
+        return gasto;
+    }
+
+    public void setGasto(Gasto gasto) {
+        this.gasto = gasto;
     }
 
     @Override
@@ -80,10 +99,11 @@ public class DetalleGasto extends Entity {
     @Override
     public String toString() {
         return "DetalleGasto{" +
-                "id=" + id +
-                ", productoId=" + productoId +
+                "fechaRegistro=" + fechaRegistro +
                 ", total=" + total +
-                ", fechaRegistro=" + fechaRegistro +
+                ", gastoId=" + gastoId +
+                ", productoGuid=" + productoGuid +
+                ", id=" + id +
                 '}';
     }
 

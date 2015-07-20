@@ -5,20 +5,20 @@ import com.villcab.gastos.utils.model.annotations.Ignored;
 import com.villcab.gastos.utils.model.annotations.Key;
 import com.villcab.gastos.utils.model.annotations.TableName;
 
-@TableName(name = "producto")
-public class Producto extends Entity {
+@TableName(name = "concepto")
+public class Concepto extends Entity {
 
     @Key
     private Long id;
     private String nombre;
     private String image;
-    private Long idcTipoProducto;
+    private Long idCategoria;
     private String guid;
 
     @Ignored
-    private Clasificador tipoProducto;
+    private Categoria categoria;
 
-    public Producto() {
+    public Concepto() {
     }
 
     public Long getId() {
@@ -45,12 +45,12 @@ public class Producto extends Entity {
         this.image = image;
     }
 
-    public Long getIdcTipoProducto() {
-        return idcTipoProducto;
+    public Long getIdCategoria() {
+        return idCategoria;
     }
 
-    public void setIdcTipoProducto(Long idcTipoProducto) {
-        this.idcTipoProducto = idcTipoProducto;
+    public void setIdCategoria(Long idCategoria) {
+        this.idCategoria = idCategoria;
     }
 
     public String getGuid() {
@@ -61,12 +61,12 @@ public class Producto extends Entity {
         this.guid = guid;
     }
 
-    public Clasificador getTipoProducto() {
-        return tipoProducto;
+    public Categoria getCategoria() {
+        return categoria;
     }
 
-    public void setTipoProducto(Clasificador tipoProducto) {
-        this.tipoProducto = tipoProducto;
+    public void setCategoria(Categoria categoria) {
+        this.categoria = categoria;
     }
 
     @Override
@@ -74,9 +74,9 @@ public class Producto extends Entity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Producto producto = (Producto) o;
+        Concepto concepto = (Concepto) o;
 
-        return id.equals(producto.id);
+        return id.equals(concepto.id);
     }
 
     @Override
@@ -86,13 +86,12 @@ public class Producto extends Entity {
 
     @Override
     public String toString() {
-        return "Producto{" +
+        return "Concepto{" +
                 "id=" + id +
                 ", nombre='" + nombre + '\'' +
                 ", image='" + image + '\'' +
-                ", idcTipoProducto=" + idcTipoProducto +
+                ", idCategoria=" + idCategoria +
                 ", guid='" + guid + '\'' +
-                ", tipoProducto=" + tipoProducto +
                 '}';
     }
 

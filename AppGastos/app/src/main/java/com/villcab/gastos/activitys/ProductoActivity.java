@@ -11,7 +11,7 @@ import android.widget.Toast;
 
 import com.villcab.gastos.R;
 import com.villcab.gastos.data.DProducto;
-import com.villcab.gastos.entitys.Producto;
+import com.villcab.gastos.entitys.Concepto;
 import com.villcab.gastos.utils.App;
 import com.villcab.gastos.utils.model.Action;
 
@@ -32,12 +32,12 @@ public class ProductoActivity extends ActionBarActivity {
 
     public void addProducto(View view) {
         try {
-            Producto model = new Producto();
+            Concepto model = new Concepto();
             EditText nombre = (EditText) findViewById(R.id.edittext_nombre);
             model.setNombre(nombre.getText().toString());
 
             if (validar(model)) {
-                DProducto data =new DProducto(this, Producto.class);
+                DProducto data =new DProducto(this, Concepto.class);
                 model.setAction(Action.INSERT);
                 data.save(model);
                 Toast.makeText(this, "Registro guardado exitosamente", Toast.LENGTH_SHORT).show();
@@ -49,7 +49,7 @@ public class ProductoActivity extends ActionBarActivity {
         }
     }
 
-    public boolean validar(Producto entity) {
+    public boolean validar(Concepto entity) {
 
         if (entity.getNombre().isEmpty()) {
             return false;
