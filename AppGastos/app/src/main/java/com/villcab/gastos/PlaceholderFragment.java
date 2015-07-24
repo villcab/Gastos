@@ -8,19 +8,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 public class PlaceholderFragment extends Fragment {
-    /**
-     * Este argumento del fragmento representa el título de cada
-     * sección
-     */
+
     public static final String ARG_SECTION_TITLE = "section_number";
 
 
-    /**
-     * Crea una instancia prefabricada de {@link PlaceholderFragment}
-     *
-     * @param sectionTitle Título usado en el contenido
-     * @return Instancia dle fragmento
-     */
     public static PlaceholderFragment newInstance(String sectionTitle) {
         PlaceholderFragment fragment = new PlaceholderFragment();
         Bundle args = new Bundle();

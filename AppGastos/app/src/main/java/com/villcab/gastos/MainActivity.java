@@ -11,24 +11,20 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.villcab.gastos.activitys.CategoriaActivity;
 import com.villcab.gastos.activitys.ConceptoActivity;
-import com.villcab.gastos.fragment.ProductoFragment;
+import com.villcab.gastos.data.DConcepto;
+import com.villcab.gastos.entitys.Concepto;
+import com.villcab.gastos.fragment.CategoriaFragment;
+import com.villcab.gastos.fragment.ConceptoFragment;
 import com.villcab.gastos.utils.App;
 
 public class MainActivity extends AppCompatActivity {
 
-    /**
-     * Instancia del drawer
-     */
     private DrawerLayout drawerLayout;
-
-    /**
-     * Titulo inicial del drawer
-     */
     private String drawerTitle;
 
     @Override
@@ -49,18 +45,24 @@ public class MainActivity extends AppCompatActivity {
             //selectItem(R.menu.nav_menu);
         }
 
+        try {
+            DConcepto data = new DConcepto(this, Concepto.class);
+        } catch (Exception e) {
+            Log.e(App.TAG, "Error al crear", e);
+        }
+
     }
 
     private void setToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        toolbar.setTitleTextColor(getResources().getColor(R.color.primaryColorDark));
         final ActionBar ab = getSupportActionBar();
         if (ab != null) {
             // Poner ícono del drawer toggle
-            ab.setHomeAsUpIndicator(R.drawable.ic_menu);
+            ab.setHomeAsUpIndicator(R.drawable.ic_menu_1);
             ab.setDisplayHomeAsUpEnabled(true);
         }
-
     }
 
     private void setupDrawerContent(NavigationView navigationView) {
@@ -105,9 +107,14 @@ public class MainActivity extends AppCompatActivity {
         Fragment fragment = null;
         switch (menuItem.getItemId()) {
             case R.id.nav_productos:
-                Log.e(App.TAG, "Toco en productos: " + menuItem.getItemId());
                 args.putString(PlaceholderFragment.ARG_SECTION_TITLE, title);
-                fragment = ProductoFragment.newInstance(title);
+                fragment = ConceptoFragment.newInstance(title);
+                fragment.setArguments(args);
+                break;
+
+            case R.id.nav_categorias:
+                args.putString(PlaceholderFragment.ARG_SECTION_TITLE, title);
+                fragment = CategoriaFragment.newInstance(title);
                 fragment.setArguments(args);
                 break;
 
@@ -132,6 +139,11 @@ public class MainActivity extends AppCompatActivity {
 
     public void onclickAddConcepto(View view) {
         Intent intent = new Intent(this, ConceptoActivity.class);
+        startActivity(intent);
+    }
+
+    public void onclickAddCategoria(View view) {
+        Intent intent = new Intent(this, CategoriaActivity.class);
         startActivity(intent);
     }
 }

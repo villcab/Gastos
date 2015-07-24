@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.googlecode.openbeans.PropertyDescriptor;
+import com.villcab.gastos.entitys.Categoria;
 import com.villcab.gastos.entitys.Concepto;
 import com.villcab.gastos.utils.App;
 import com.villcab.gastos.utils.model.annotations.Ignored;
@@ -40,11 +41,7 @@ public abstract class Wrapper extends SQLiteOpenHelper {
     public Wrapper(Context context, Class type) throws Exception {
         super(context, Setting.databaseName, null, 1);
         this.context = context;
-        TableName atable = (TableName) type.getAnnotation(TableName.class);
-        if (atable == null) {
-            throw new Exception("No existe la anotacion @TableName en la Entidad: " + type);
-        }
-        tableName = atable.name();
+        tableName = getTableName(type);
     }
 
     public Wrapper(Context context, SQLiteDatabase connection) {
@@ -193,7 +190,7 @@ public abstract class Wrapper extends SQLiteOpenHelper {
 //        return result;
     }
 
-    public String createTable(Entity entity) {
+    public String createTable(Entity entity) throws Exception {
         Field[] fields = entity.getClass().getDeclaredFields();
         Field[] superFields = entity.getClass().getSuperclass().getDeclaredFields();
         List<Field> listFields = new ArrayList<Field>();
@@ -204,7 +201,7 @@ public abstract class Wrapper extends SQLiteOpenHelper {
         List<Object> columns = new ArrayList<Object>();
         StringBuilder builder = new StringBuilder();
         builder.append("CREATE TABLE ");
-        builder.append(tableName);
+        builder.append(getTableName(entity.getClass()));
         try {
             for (Field field : fields) {
                 if (!(field.getName().equals("action"))) {
@@ -214,8 +211,8 @@ public abstract class Wrapper extends SQLiteOpenHelper {
                             for (Annotation annotation : annotations) {
                                 if (annotation instanceof Key) {
                                     columns.add(field.getName() + " integer NOT NULL PRIMARY KEY AUTOINCREMENT");
-                                //} else if (annotation instanceof Nullable) {
-                                //    columns.add(field.getName() + " text");
+                                    //} else if (annotation instanceof Nullable) {
+                                    //    columns.add(field.getName() + " text");
                                 } else {
                                     //columns.add(field.getName() + " text NOT NULL");
                                     columns.add(field.getName() + " text");
@@ -344,16 +341,13 @@ public abstract class Wrapper extends SQLiteOpenHelper {
         return ((Llaves.size() > 0) ? "(" + TextUtils.join(", ", Llaves) + ")" : "(0)");
     }
 
-//    public static String getTableName(Entity entity) {
-//
-//        TableName tableName = entity.getClass().getAnnotation(TableName.class);
-//        if (tableName == null) {
-//
-//        }
-//
-//        String[] buf = entity.getClass().getName().split("\\.");
-//        return (buf[buf.length - 2] + "_" + buf[buf.length - 1]).toLowerCase();
-//    }
+    public static String getTableName(Class type) throws Exception {
+        TableName table = (TableName) type.getAnnotation(TableName.class);
+        if (table == null) {
+            throw new Exception("No existe la anotacion @TableName en la Entidad: " + type.getSimpleName());
+        }
+        return table.name();
+    }
 
     public <T extends Entity> T get(String strQuery, Entity entity) {
         SQLiteDatabase objDb = this.getReadableDatabase();
@@ -382,8 +376,9 @@ public abstract class Wrapper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         try {
             db.execSQL(createTable(new Concepto()));
+            db.execSQL(createTable(new Categoria()));
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.e(App.TAG, "Error al crear las tablas", e);
         }
     }
 

@@ -1,20 +1,26 @@
 <resources>
     <string name="app_name">Gastos</string>
 
-    <string name="hello_world">Gestion de Productos</string>
     <string name="action_settings">Settings</string>
-    <string name="title_activity_producto">ProductoActivity</string>
 
-    <string name="home_item">Home</string>
-    <string name="productos_item">Productos</string>
+    <string name="home_item">Inicio</string>
+    <string name="productos_item">Conceptos</string>
     <string name="compras_item">Carrito</string>
     <string name="ordenes_item">Ordenes</string>
     <string name="facturas_item">Facturas</string>
     <string name="log_out_item">Cerrar Sesión</string>
     <string name="configuracion_item">Configuración</string>
+    <string name="categoria_item">Categoria</string>
 
-<!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="title_activity_concepto">ConceptoActivity</string>
+    <!--CONCEPTOP ACTIVITY-->
+    <string name="title_activity_concepto">Nuevo Producto</string>
+    <string name="co_nombre">Nombre del Concepto *</string>
+    <string name="co_categoria">Categoria *</string>
+    <string name="co_descripcion">Descripcion</string>
+
+    <!--CATEGORIA ACTIVITY-->
+    <string name="title_activity_categoria">Nueva Categoria</string>
+    <string name="ca_nombre">Nombre de la categoria *</string>
+    <string name="ca_descripcion">Descripcion</string>
 
 </resources>

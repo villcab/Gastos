@@ -1,7 +1,14 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:hmkcode="http://schemas.android.com/apk/res-auto"
     tools:context="com.villcab.gastos.activitys.ConceptoActivity">
-    <item android:id="@+id/action_settings" android:title="@string/action_settings"
-        android:orderInCategory="100" app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_save"
+        android:icon="@drawable/accept"
+        android:orderInCategory="100"
+        android:title="Save"
+        hmkcode:showAsAction="always"/>
+
 </menu>

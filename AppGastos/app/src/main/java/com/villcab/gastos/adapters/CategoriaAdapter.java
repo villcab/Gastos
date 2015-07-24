@@ -4,33 +4,31 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.villcab.gastos.R;
-import com.villcab.gastos.entitys.Concepto;
+import com.villcab.gastos.entitys.Categoria;
 
 import java.util.List;
 
-public class ConceptoAdapter extends RecyclerView.Adapter<ConceptoAdapter.EntityViewHolder> {
+public class CategoriaAdapter extends RecyclerView.Adapter<CategoriaAdapter.EntityViewHolder> {
 
-    private List<Concepto> items;
+    private List<Categoria> items;
 
-    public ConceptoAdapter(List<Concepto> items) {
+    public CategoriaAdapter(List<Categoria> items) {
         this.items = items;
     }
 
     @Override
     public EntityViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.row_concepto, viewGroup, false);
+        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.row_categoria, viewGroup, false);
         return new EntityViewHolder(v);
     }
 
     @Override
     public void onBindViewHolder(EntityViewHolder entityViewHolder, int i) {
-        entityViewHolder.imagen.setImageResource(R.drawable.apple);
         entityViewHolder.nombre.setText(items.get(i).getNombre());
-        entityViewHolder.categoria.setText(items.get(i).getCategoria().getNombre());
+        entityViewHolder.descripcion.setText(items.get(i).getDescripcion());
     }
 
     @Override
@@ -40,15 +38,13 @@ public class ConceptoAdapter extends RecyclerView.Adapter<ConceptoAdapter.Entity
 
     public static class EntityViewHolder extends RecyclerView.ViewHolder {
         // Campos respectivos de un item
-        public ImageView imagen;
         public TextView nombre;
-        public TextView categoria;
+        public TextView descripcion;
 
         public EntityViewHolder(View v) {
             super(v);
-            imagen = (ImageView) v.findViewById(R.id.cconcep_image);
             nombre = (TextView) v.findViewById(R.id.nombre);
-            categoria = (TextView) v.findViewById(R.id.cconcep_categoria);
+            descripcion = (TextView) v.findViewById(R.id.descripcion);
         }
     }
 

@@ -27,27 +27,18 @@
             android:padding="10dp">
 
 
-            <ImageView
-                android:layout_width="150dp"
-                android:layout_height="150dp"
-                android:id="@+id/imageView"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
-                android:background="@drawable/apple"
-                android:layout_gravity="center_horizontal" />
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="@string/co_nombre"
+                android:text="@string/ca_nombre"
                 android:id="@+id/textView"
                 android:textStyle="bold" />
 
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/concepto_nombre"
+                android:id="@+id/nombre"
                 android:autoText="false"
                 android:inputType="textCapSentences" />
 
@@ -55,28 +46,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="@string/co_descripcion"
+                android:text="@string/ca_descripcion"
                 android:id="@+id/textView2"
                 android:textStyle="bold" />
 
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/concepto_descripcion" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="@string/co_categoria"
-                android:id="@+id/textView3"
-                android:textStyle="bold" />
-
-            <Switch
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Eliga"
-                android:id="@+id/concepto_categoria" />
+                android:id="@+id/descripcion"
+                android:inputType="textCapSentences" />
 
         </LinearLayout>
 

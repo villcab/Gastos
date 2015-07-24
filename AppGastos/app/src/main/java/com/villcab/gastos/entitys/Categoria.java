@@ -2,7 +2,9 @@ package com.villcab.gastos.entitys;
 
 import com.villcab.gastos.utils.model.Entity;
 import com.villcab.gastos.utils.model.annotations.Key;
+import com.villcab.gastos.utils.model.annotations.TableName;
 
+@TableName(name = "categoria")
 public class Categoria extends Entity {
 
     @Key

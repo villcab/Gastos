@@ -23,6 +23,10 @@
             android:id="@+id/nav_facturas"
             android:icon="@drawable/ic_file_document"
             android:title="@string/facturas_item" />
+        <item
+            android:id="@+id/nav_categorias"
+            android:icon="@drawable/ic_truck"
+            android:title="@string/categoria_item" />
 
         <!-- Sección de configuración -->
         <item
